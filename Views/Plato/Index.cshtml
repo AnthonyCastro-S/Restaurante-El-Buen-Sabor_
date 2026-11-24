@@ -1,0 +1,50 @@
+@model List<Plato>
+
+<h2>Lista de Platos</h2>
+<a asp-action="Create">Crear Nuevo Plato</a>
+
+<form method="get">
+    <label>Nombre:</label> <input type="text" name="buscar" value="@ViewBag.Buscar" />
+    <label>Categoría:</label>
+    <select name="categoriaId" asp-items="@(new SelectList((List<Categoria>)ViewBag.Categorias, "Id", "Nombre", (long)ViewBag.CategoriaId))">
+        <option value="0">-- Todas --</option>
+    </select>
+    <button type="submit">Buscar</button>
+</form>
+<br />
+<table border="1">
+    <tr>
+        <th>Imagen</th>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Descripción</th>
+        <th>Precio</th>
+        <th>Disponible</th>
+        <th>Acciones</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @if (!string.IsNullOrEmpty(item.Imagen))
+                {
+                    <img src="@item.Imagen" alt="@item.Nombre" style="width:64px;height:64px;object-fit:cover;border-radius:6px" />
+                }
+                else
+                {
+                    <span class="text-muted">Sin imagen</span>
+                }
+            </td>
+            <td>@item.Nombre</td>
+            <td>@item.Categoria</td>
+            <td>@item.Descripcion</td>
+            <td>S/ @item.Precio.ToString("0.00")</td>
+            <td>@(item.Disponible ? "Sí" : "No")</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-action="CambiarDisponibilidad" asp-route-id="@item.Id">Cambiar disponibilidad</a> |
+                <form asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline" onsubmit="return confirm('¿Eliminar el plato?');"><button type="submit">Eliminar</button></form>
+            </td>
+        </tr>
+    }
+</table>

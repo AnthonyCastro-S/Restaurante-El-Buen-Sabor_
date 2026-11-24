@@ -1,0 +1,15 @@
+@model Usuario
+@{ bool nuevo = Model.Id == 0; ViewData["Title"] = nuevo ? "Registrar usuario" : "Editar usuario"; }
+<h2>@(nuevo ? "Registrar usuario" : "Editar usuario")</h2>
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+<form asp-action="@(nuevo ? "Create" : "Edit")" method="post" class="simple-form">
+    <input type="hidden" asp-for="Id" />
+    <div class="mb-3"><label class="form-label">Nombre</label><input asp-for="Nombre" class="form-control" required /></div>
+    <div class="mb-3"><label class="form-label">Apellido</label><input asp-for="Apellido" class="form-control" required /></div>
+    <div class="mb-3"><label class="form-label">Correo electrónico</label><input asp-for="Email" type="email" class="form-control" required /></div>
+    <div class="mb-3"><label class="form-label">Contraseña @(nuevo ? "" : "(dejar vacía para conservar)")</label><input asp-for="Password" type="password" value="" class="form-control" minlength="6" required="@nuevo" /></div>
+    <div class="mb-3"><label class="form-label">Rol</label><select asp-for="Rol" class="form-select"><option value="MESERO">Mesero</option><option value="COCINERO">Cocinero</option><option value="CAJERO">Cajero</option><option value="ADMIN">Administrador</option></select></div>
+    <div class="form-check mb-3"><input asp-for="Activo" class="form-check-input" /><label class="form-check-label">Activo</label></div>
+    <button type="submit" class="btn btn-primary">@(nuevo ? "Registrar" : "Guardar cambios")</button>
+    <a asp-action="Index" class="btn btn-outline-secondary ms-2">Volver</a>
+</form>

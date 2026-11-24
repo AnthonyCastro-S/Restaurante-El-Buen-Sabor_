@@ -1,0 +1,33 @@
+@model Pedido
+
+<h2>Pedido PED-@Model.Id</h2>
+<p>Mesa: @Model.MesaNumero | Mesero: @Model.MeseroNombre | Estado: <b>@Model.Estado</b> | Fecha: @Model.FechaCreacion.ToString("dd/MM/yyyy HH:mm")</p>
+<table border="1">
+    <tr><th>Plato</th><th>Notas</th><th>Cantidad</th><th>Precio</th><th>Subtotal</th></tr>
+    @foreach (var d in Model.Detalles)
+    {
+        <tr>
+            <td>@d.PlatoNombre</td>
+            <td>@d.Notas</td>
+            <td>@d.Cantidad</td>
+            <td>S/ @d.PrecioUnitario.ToString("0.00")</td>
+            <td>S/ @d.Subtotal.ToString("0.00")</td>
+        </tr>
+    }
+</table>
+<h4>Total: S/ @Model.Total.ToString("0.00")</h4>
+@if (!string.IsNullOrEmpty(Model.Observaciones))
+{
+    <p><b>Observaciones:</b><br />@Html.Raw(Html.Encode(Model.Observaciones).Replace("\n", "<br />"))</p>
+}
+@if ((User.IsInRole("ADMIN") || User.IsInRole("MESERO")) && new[] { "PENDIENTE", "EN_PREPARACION", "LISTO", "ENTREGADO" }.Contains(Model.Estado))
+{
+    <div class="mt-3 d-flex gap-2 flex-wrap">
+        <a asp-action="CambiarMesa" asp-route-id="@Model.Id" class="btn btn-outline-primary">Cambiar mesa</a>
+        @if (Model.Estado == "EN_PREPARACION")
+        {
+            <a asp-action="AgregarPlatos" asp-route-id="@Model.Id" class="btn btn-primary">Agregar platos</a>
+        }
+    </div>
+}
+<a asp-action="Index" class="btn btn-link mt-2">Volver</a>

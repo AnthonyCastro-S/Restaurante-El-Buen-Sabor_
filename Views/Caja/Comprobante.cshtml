@@ -1,0 +1,14 @@
+@{ ViewData["Title"] = "Comprobante de pago"; var p = (Dictionary<string, object>)ViewBag.Pago; }
+<div class="receipt-actions"><a asp-action="Index" class="btn btn-light">← Volver a caja</a><button class="btn btn-primary" onclick="window.print()">Imprimir comprobante</button></div>
+<div class="receipt-wrap"><div class="receipt">
+    <div class="receipt-brand"><div class="receipt-mark">EB</div><h1>EL BUEN SABOR</h1><p>RESTAURANTE · COCINA Y TRADICIÓN</p></div>
+    <div class="receipt-company"><strong>RESTAURANTE EL BUEN SABOR S.A.C.</strong><span>Comprobante interno de pago</span><span>Atención al cliente · Gracias por su visita</span></div>
+    <div class="receipt-number"><span>COMPROBANTE DE PAGO</span><strong>N.° @Convert.ToInt64(p["id"]).ToString("D8")</strong></div>
+    <div class="receipt-meta"><div><span>Fecha</span><strong>@Convert.ToDateTime(p["fecha"]).ToString("dd/MM/yyyy HH:mm")</strong></div><div><span>Mesa</span><strong>@p["numero"]</strong></div><div><span>Cajero</span><strong>@p["cajero"]</strong></div></div>
+    <table class="receipt-table"><thead><tr><th>Descripción</th><th>Cant.</th><th>Precio</th><th>Total</th></tr></thead><tbody>@foreach (var d in (IEnumerable<dynamic>)ViewBag.Detalles) { <tr><td>@d.Plato</td><td>@d.Cantidad</td><td>@Convert.ToDecimal(d.Precio).ToString("N2")</td><td>@Convert.ToDecimal(d.Subtotal).ToString("N2")</td></tr> }</tbody></table>
+    <div class="receipt-totals"><div><span>Subtotal</span><strong>S/ @Convert.ToDecimal(p["subtotal"]).ToString("N2")</strong></div><div><span>IGV (18%)</span><strong>S/ @Convert.ToDecimal(p["igv"]).ToString("N2")</strong></div><div class="grand-total"><span>TOTAL PAGADO</span><strong>S/ @Convert.ToDecimal(p["total"]).ToString("N2")</strong></div></div>
+    <div class="receipt-payment"><strong>Detalle del pago</strong>@foreach (var m in (IEnumerable<dynamic>)ViewBag.MediosPago) { <div><span>@(m.Metodo=="YAPE_PLIN"?"Yape / Plin":m.Metodo=="TARJETA"?"Tarjeta (POS)":"Efectivo")</span><strong>S/ @Convert.ToDecimal(m.Importe).ToString("N2")</strong></div> }</div>
+    <div class="receipt-change"><span>Vuelto</span><strong>S/ @Convert.ToDecimal(p["vuelto"]).ToString("N2")</strong></div>
+    <div class="receipt-thanks"><strong>¡Gracias por su preferencia!</strong><span>Esperamos volver a atenderlo pronto.</span><small>Conserve este comprobante como constancia de pago.</small></div>
+</div></div>
+@section Scripts { <style>@@media print{body{background:#fff!important}.sidebar,.topbar,.app-footer,.receipt-actions{display:none!important}.app-shell.with-sidebar{margin:0!important}.content-area{padding:0!important;max-width:none!important}.receipt-wrap{padding:0!important}.receipt{box-shadow:none!important;border:0!important;margin:0 auto!important}}</style> }

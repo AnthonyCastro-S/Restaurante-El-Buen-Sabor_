@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - El Buen Sabor</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+@{
+    var logged = User.Identity != null && User.Identity.IsAuthenticated;
+    var role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value ?? "Personal";
+}
+@if (logged)
+{
+    <aside class="sidebar">
+        <a class="brand" asp-controller="Home" asp-action="Index">
+            <span class="brand-mark">EB</span>
+            <span><strong>EL BUEN SABOR</strong><small>RESTAURANTE · GESTIÓN</small></span>
+        </a>
+        <div class="sidebar-label">MENÚ PRINCIPAL</div>
+        <nav class="side-nav">
+            <a asp-controller="Home" asp-action="Index" class="side-link"><span class="nav-icon">⌂</span> Panel principal</a>
+            @if (User.IsInRole("ADMIN") || User.IsInRole("MESERO") || User.IsInRole("CAJERO"))
+            { <a asp-controller="Pedido" asp-action="Index" class="side-link"><span class="nav-icon">▤</span> Pedidos</a> }
+            @if (User.IsInRole("ADMIN") || User.IsInRole("COCINERO"))
+            { <a asp-controller="Cocina" asp-action="Index" class="side-link"><span class="nav-icon">♨</span> Cocina</a> }
+            @if (User.IsInRole("ADMIN") || User.IsInRole("MESERO"))
+            { <a asp-controller="Mesa" asp-action="Index" class="side-link"><span class="nav-icon">▦</span> Mesas</a> }
+            @if (User.IsInRole("ADMIN") || User.IsInRole("CAJERO"))
+            {
+                <a asp-controller="Caja" asp-action="Index" class="side-link"><span class="nav-icon">＄</span> Caja y cobros</a>
+                <a asp-controller="Caja" asp-action="Historial" class="side-link"><span class="nav-icon">▣</span> Cierre de caja</a>
+            }
+            @if (User.IsInRole("ADMIN"))
+            {
+                <div class="sidebar-label sidebar-label-spaced">ADMINISTRACIÓN</div>
+                <a asp-controller="Plato" asp-action="Index" class="side-link"><span class="nav-icon">♧</span> Platos</a>
+                <a asp-controller="Categoria" asp-action="Index" class="side-link"><span class="nav-icon">▧</span> Categorías</a>
+                <a asp-controller="Usuario" asp-action="Index" class="side-link"><span class="nav-icon">♙</span> Usuarios</a>
+                <a asp-controller="Inventario" asp-action="Index" class="side-link"><span class="nav-icon">▦</span> Inventario</a>
+            }
+        </nav>
+        <div class="sidebar-bottom"><span class="status-dot"></span> Sistema operativo <small>© 2026 El Buen Sabor</small></div>
+    </aside>
+}
+<div class="app-shell @(logged ? "with-sidebar" : "")">
+    <header class="topbar">
+        <div class="topbar-title"><span class="eyebrow">RESTAURANTE EL BUEN SABOR</span><strong>@ViewData["Title"]</strong></div>
+        @if (logged)
+        {
+            <div class="profile-area">
+                <div class="avatar">@((User.Identity?.Name ?? "U").Substring(0, 1).ToUpper())</div>
+                <div class="profile-text"><strong>@User.Identity?.Name</strong><small>@role</small></div>
+                <form asp-controller="Account" asp-action="Logout" method="post"><button type="submit" class="logout-btn">Salir ↗</button></form>
+            </div>
+        }
+    </header>
+    <main class="content-area" role="main">
+        @if (TempData["Ok"] != null) { <div class="alert alert-success app-alert">@TempData["Ok"]</div> }
+        @if (TempData["Error"] != null) { <div class="alert alert-danger app-alert">@TempData["Error"]</div> }
+        @RenderBody()
+    </main>
+    <footer class="app-footer">© 2026 Restaurante El Buen Sabor S.A.C. <span>Gestión simple, servicio de calidad.</span></footer>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

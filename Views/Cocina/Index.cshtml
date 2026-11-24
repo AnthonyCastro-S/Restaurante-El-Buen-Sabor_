@@ -1,0 +1,59 @@
+@model List<Pedido>
+@{ ViewData["Title"] = "Cocina"; }
+
+<h2>Cocina - Pantalla de comandas</h2>
+<a asp-action="Index">Actualizar</a>
+
+@if (!Model.Any())
+{
+    <p class="mt-3">No hay pedidos pendientes de preparación.</p>
+}
+else
+{
+    var columnas = new[] { ("PENDIENTE", "Pendientes", "bg-warning text-dark"), ("EN_PREPARACION", "En preparación", "bg-primary"), ("LISTO", "Listos", "bg-success") };
+    <div class="row g-3 mt-1">
+        @foreach (var col in columnas)
+        {
+            <div class="col-md-4">
+                <h5><span class="badge @col.Item3">@col.Item2 (@Model.Count(p => p.Estado == col.Item1))</span></h5>
+                @foreach (var item in Model.Where(p => p.Estado == col.Item1))
+                {
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">PED-@item.Id · Mesa @item.MesaNumero <small class="text-muted">@item.FechaCreacion.ToString("HH:mm")</small></h5>
+                            @foreach (var d in item.Detalles)
+                            {
+                                <div style="font-size:1.1rem"><b>@d.Cantidad x</b> @d.PlatoNombre @(string.IsNullOrEmpty(d.Notas) ? "" : "(" + d.Notas + ")")</div>
+                            }
+                            @if (!string.IsNullOrEmpty(item.Observaciones))
+                            {
+                                <p class="mt-2 mb-2"><b>Obs.:</b> @Html.Raw(Html.Encode(item.Observaciones).Replace("\n", "<br />"))</p>
+                            }
+                            <div class="mt-2">
+                                @if (item.Estado == "PENDIENTE")
+                                {
+                                    <a asp-action="Comenzar" asp-route-id="@item.Id">Comenzar preparación</a>
+                                }
+                                @if (item.Estado == "EN_PREPARACION")
+                                {
+                                    <a asp-action="MarcarListo" asp-route-id="@item.Id">Marcar como listo</a>
+                                }
+                                @if (item.Estado == "LISTO")
+                                {
+                                    <text>Esperando al mesero</text>
+                                }
+                            </div>
+                            @if (item.Estado != "LISTO")
+                            {
+                                <form asp-action="Observacion" asp-route-id="@item.Id" method="post" class="mt-2">
+                                    <input type="text" name="texto" maxlength="200" placeholder="Observación" />
+                                    <button type="submit">Agregar</button>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+}

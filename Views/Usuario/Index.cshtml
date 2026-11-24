@@ -1,0 +1,40 @@
+@model List<Usuario>
+
+<h2>Lista de Usuarios</h2>
+<a asp-action="Create">Crear Nuevo Usuario</a>
+
+<form method="get">
+    <label>Nombre o correo:</label> <input type="text" name="buscar" value="@ViewBag.Buscar" />
+    <label>Rol:</label>
+    <select name="rol">
+        <option value="">-- Todos --</option>
+        @foreach (var r in new[] { "ADMIN", "MESERO", "COCINERO", "CAJERO" })
+        {
+            <option value="@r" selected="@((string)ViewBag.Rol == r)">@r</option>
+        }
+    </select>
+    <button type="submit">Buscar</button>
+</form>
+<br />
+<table border="1">
+    <tr>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Rol</th>
+        <th>Activo</th>
+        <th>Acciones</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.NombreCompleto</td>
+            <td>@item.Email</td>
+            <td>@item.Rol</td>
+            <td>@(item.Activo ? "Sí" : "No")</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-action="CambiarEstado" asp-route-id="@item.Id">@(item.Activo ? "Desactivar" : "Activar")</a>
+            </td>
+        </tr>
+    }
+</table>

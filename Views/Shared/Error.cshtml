@@ -1,0 +1,18 @@
+@using Microsoft.AspNetCore.Diagnostics
+@{
+    ViewData["Title"] = "Error";
+    var ex = Context.Features.Get<IExceptionHandlerFeature>()?.Error;
+}
+
+<h2>Ocurrió un error</h2>
+@if (ex != null)
+{
+    <div class="alert alert-danger"><b>@ex.GetType().Name:</b> @ex.Message</div>
+}
+<p>Verifica lo siguiente:</p>
+<ul>
+    <li>SQL Server está en ejecución.</li>
+    <li>Ejecutaste el script <code>Database/restaurante_db.sql</code> y existe la base <code>restaurante_db</code>.</li>
+    <li>El nombre del servidor en <code>Models/Conexion.cs</code> es el correcto (por ejemplo <code>localhost\SQLEXPRESS</code>).</li>
+</ul>
+<a asp-controller="Pedido" asp-action="Index">Volver a Pedidos</a>

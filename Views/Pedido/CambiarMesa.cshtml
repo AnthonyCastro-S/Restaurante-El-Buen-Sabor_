@@ -1,0 +1,32 @@
+@model Pedido
+@{
+    ViewData["Title"] = "Cambiar mesa";
+    var mesas = (List<Mesa>)ViewBag.Mesas;
+}
+
+<h2>Cambiar mesa del pedido PED-@Model.Id</h2>
+<p>Mesa actual: <strong>@Model.MesaNumero</strong> · Estado del pedido: <strong>@Model.Estado</strong></p>
+
+@if (!mesas.Any())
+{
+    <div class="alert alert-warning">No hay mesas disponibles para trasladar este pedido.</div>
+    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary">Volver</a>
+}
+else
+{
+    <form asp-action="CambiarMesa" asp-route-id="@Model.Id" method="post">
+        @Html.AntiForgeryToken()
+        <div class="mb-3">
+            <label for="nuevaMesaId" class="form-label">Selecciona la nueva mesa</label>
+            <select id="nuevaMesaId" name="nuevaMesaId" class="form-select" required>
+                <option value="">-- Seleccionar mesa disponible --</option>
+                @foreach (var mesa in mesas)
+                {
+                    <option value="@mesa.Id">Mesa @mesa.Numero · @mesa.Capacidad personas · @mesa.Ubicacion</option>
+                }
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Confirmar cambio de mesa</button>
+        <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Cancelar</a>
+    </form>
+}

@@ -1,0 +1,73 @@
+@model Pedido
+@{
+    var mesas = (List<Mesa>)ViewBag.Mesas;
+    var meseros = (List<Usuario>)ViewBag.Meseros;
+    var platos = (List<Plato>)ViewBag.Platos;
+    int i = 0;
+}
+
+<h2>Registrar Pedido</h2>
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+<form asp-action="Create" method="post">
+    <label>Mesero:</label>
+    <select asp-for="MeseroId" class="form-control" asp-items="@(new SelectList(meseros, "Id", "NombreCompleto"))">
+        <option value="0">-- Seleccione mesero --</option>
+    </select><br />
+
+    <label>Mesa:</label>
+    <select asp-for="MesaId" class="form-control">
+        <option value="0">-- Seleccione mesa --</option>
+        @foreach (var m in mesas)
+        {
+            var bloqueada = m.EnUso || m.Estado == "RESERVADA";
+            var motivo = m.EnUso ? "OCUPADA - pedido en curso" : (m.Estado == "RESERVADA" ? "RESERVADA" : m.Estado);
+            <option value="@m.Id" disabled="@bloqueada">Mesa @m.Numero (@m.Capacidad personas) - @motivo</option>
+        }
+    </select><br />
+
+    <label>Observaciones:</label>
+    <textarea asp-for="Observaciones" class="form-control" rows="2" maxlength="255"></textarea><br />
+
+    <table border="1">
+        <tr><th>Imagen</th><th>Categoría</th><th>Plato</th><th>Precio</th><th>Cantidad</th><th>Nota</th></tr>
+        @foreach (var p in platos)
+        {
+            <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(p.Imagen))
+                    {
+                        <img src="@p.Imagen" alt="@p.Nombre" style="width:48px;height:48px;object-fit:cover;border-radius:5px" />
+                    }
+                </td>
+                <td>@p.Categoria</td>
+                <td>@p.Nombre</td>
+                <td>S/ @p.Precio.ToString("0.00")</td>
+                <td>
+                    <input type="hidden" name="Detalles[@i].PlatoId" value="@p.Id" />
+                    <input type="number" name="Detalles[@i].Cantidad" min="0" max="50" value="0" class="qty" data-precio="@p.Precio.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)" />
+                </td>
+                <td><input type="text" name="Detalles[@i].Notas" maxlength="255" /></td>
+            </tr>
+            i++;
+        }
+    </table>
+    <h4>Total: <span id="total">S/ 0.00</span></h4>
+
+    <button type="submit">Enviar pedido a cocina</button>
+    <a asp-action="Index">Salir</a>
+</form>
+
+@section Scripts {
+    <script>
+        function recalcular() {
+            var total = 0;
+            document.querySelectorAll('.qty').forEach(function (q) {
+                total += (parseInt(q.value) || 0) * parseFloat(q.dataset.precio);
+            });
+            document.getElementById('total').textContent = 'S/ ' + total.toFixed(2);
+        }
+        document.querySelectorAll('.qty').forEach(function (q) { q.addEventListener('input', recalcular); });
+    </script>
+}

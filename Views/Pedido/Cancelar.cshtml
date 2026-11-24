@@ -1,0 +1,14 @@
+@model Pedido
+
+<h2>Cancelar Pedido PED-@Model.Id</h2>
+<p>Mesa @Model.MesaNumero - Total S/ @Model.Total.ToString("0.00") - Estado: @Model.Estado</p>
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+<form asp-action="Cancelar" asp-route-id="@Model.Id" method="post">
+    <label>Motivo de la cancelación:</label><br />
+    <textarea name="motivo" rows="3" cols="50" maxlength="200"></textarea><br />
+    <button type="submit">Confirmar cancelación</button>
+    <a asp-action="Index">Volver</a>
+</form>

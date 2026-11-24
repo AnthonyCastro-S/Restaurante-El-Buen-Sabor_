@@ -1,0 +1,14 @@
+@model ElBuenSabor.Models.Insumo
+@{ ViewData["Title"] = Model.Id == 0 ? "Nuevo insumo" : "Editar insumo"; }
+<h2>@ViewData["Title"]</h2>
+<form asp-action="@(Model.Id == 0 ? "Create" : "Edit")" method="post" class="simple-form">
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+    <div class="mb-3"><label asp-for="Nombre">Nombre del insumo</label><input asp-for="Nombre" class="form-control" maxlength="150" required /><span asp-validation-for="Nombre" class="text-danger"></span></div>
+    <div class="mb-3"><label asp-for="Unidad">Unidad de medida</label><select asp-for="Unidad" class="form-select"><option value="kg">Kilogramos (kg)</option><option value="g">Gramos (g)</option><option value="L">Litros (L)</option><option value="ml">Mililitros (ml)</option><option value="unidad">Unidad</option><option value="paquete">Paquete</option></select></div>
+    @if (Model.Id == 0) { <div class="mb-3"><label asp-for="StockActual">Stock inicial</label><input asp-for="StockActual" type="number" min="0" step="0.01" class="form-control" /></div> }
+    <div class="mb-3"><label asp-for="StockMinimo">Stock mínimo</label><input asp-for="StockMinimo" type="number" min="0" step="0.01" class="form-control" /></div>
+    <div class="mb-3"><label asp-for="CostoUnitario">Costo unitario (S/)</label><input asp-for="CostoUnitario" type="number" min="0" step="0.01" class="form-control" /></div>
+    @if (Model.Id != 0) { <div class="form-check mb-3"><input asp-for="Activo" class="form-check-input" /><label asp-for="Activo" class="form-check-label">Insumo activo</label></div> }
+    <div class="d-flex gap-2"><button type="submit" class="btn btn-primary">Guardar</button><a asp-action="Index" class="btn btn-light">Cancelar</a></div>
+</form>

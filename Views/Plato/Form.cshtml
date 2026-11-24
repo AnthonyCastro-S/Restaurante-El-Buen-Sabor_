@@ -1,0 +1,49 @@
+@model Plato
+@{ bool nuevo = Model.Id == 0; }
+
+<h2>@(nuevo ? "Crear Plato" : "Editar Plato")</h2>
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+<form asp-action="@(nuevo ? "Create" : "Edit")" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+    <label>Categoría:</label>
+    <select asp-for="CategoriaId" class="form-control"
+            asp-items="@(new SelectList(ViewBag.Categorias, "Id", "Nombre"))">
+        <option value="0">-- Seleccione categoría --</option>
+    </select><br />
+    <label>Nombre:</label>
+    <input asp-for="Nombre" /><br />
+    <label>Descripción:</label>
+    <input asp-for="Descripcion" /><br />
+    <label>Precio:</label>
+    <input asp-for="Precio" /><br />
+    <label>Disponible:</label>
+    <input asp-for="Disponible" /><br />
+
+    <label>Imagen del plato (opcional, JPG/PNG/WEBP, máx. 2 MB):</label><br />
+    @if (!string.IsNullOrEmpty(Model.Imagen))
+    {
+        <img src="@Model.Imagen" alt="@Model.Nombre" style="max-height:120px;border-radius:6px;display:block;margin:6px 0" />
+        <label><input type="checkbox" name="quitarImagen" value="true" /> Quitar imagen actual</label><br />
+    }
+    <input type="file" name="imagenArchivo" id="imagenArchivo" accept=".jpg,.jpeg,.png,.webp,image/*" /><br />
+    <img id="vistaPrevia" alt="Vista previa" style="max-height:120px;border-radius:6px;display:none;margin:6px 0" /><br />
+
+    <button type="submit">Guardar plato</button>
+    <a asp-action="Index">Volver</a>
+</form>
+
+@section Scripts {
+    <script>
+        document.getElementById('imagenArchivo').addEventListener('change', function () {
+            var img = document.getElementById('vistaPrevia');
+            if (this.files && this.files[0]) {
+                img.src = URL.createObjectURL(this.files[0]);
+                img.style.display = 'block';
+            } else {
+                img.style.display = 'none';
+            }
+        });
+    </script>
+}

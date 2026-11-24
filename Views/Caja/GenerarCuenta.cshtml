@@ -1,0 +1,122 @@
+@model Cuenta
+@{ ViewData["Title"] = "Cuenta de la mesa"; }
+
+<div class="page-heading"><div><span class="section-kicker">GESTIÓN DE COBROS</span><h1>Cuenta de Mesa @Model.MesaNumero</h1><p>Revisa el detalle y distribuye el pago entre los medios disponibles.</p></div><a asp-action="Index" class="btn btn-light">Volver a caja</a></div><div class="panel-card mb-4">
+
+<table class="table table-striped">
+    <thead>
+        <tr><th>Pedido</th><th>Plato</th><th>Cantidad</th><th>Precio</th><th>Subtotal</th></tr>
+    </thead>
+    <tbody>
+    @foreach (var p in Model.Pedidos)
+    {
+        foreach (var d in p.Detalles)
+        {
+            <tr>
+                <td>PED-@p.Id</td>
+                <td>@d.PlatoNombre</td>
+                <td>@d.Cantidad</td>
+                <td>S/ @d.PrecioUnitario.ToString("0.00")</td>
+                <td>S/ @d.Subtotal.ToString("0.00")</td>
+            </tr>
+        }
+    }
+    </tbody>
+</table></div>
+
+<div class="panel-card mt-3 mb-3">
+    <div class="card-body">
+        <h5>Subtotal: S/ @Model.Subtotal.ToString("0.00")</h5>
+        <h5>IGV (18%): S/ @Model.Igv.ToString("0.00")</h5>
+        <h3 class="text-success">Total a cobrar: S/ @Model.Total.ToString("0.00")</h3>
+    </div>
+</div>
+
+<div class="panel-card"><form asp-action="Pagar" asp-route-id="@Model.MesaId" method="post" class="mt-3" id="formPago">
+    @Html.AntiForgeryToken()
+    <h4>Distribuir el pago</h4>
+    <p class="text-muted">Puedes utilizar uno, dos o los tres medios de pago. La suma debe coincidir con el total.</p>
+
+    <div class="row g-3">
+        <div class="col-md-4">
+            <label for="efectivo" class="form-label">Efectivo (S/)</label>
+            <input type="number" name="efectivo" id="efectivo" class="form-control importe" step="0.01" min="0" value="0.00" />
+        </div>
+        <div class="col-md-4">
+            <label for="tarjeta" class="form-label">Tarjeta (POS) (S/)</label>
+            <input type="number" name="tarjeta" id="tarjeta" class="form-control importe" step="0.01" min="0" value="0.00" />
+        </div>
+        <div class="col-md-4">
+            <label for="yapePlin" class="form-label">Yape / Plin (S/)</label>
+            <input type="number" name="yapePlin" id="yapePlin" class="form-control importe" step="0.01" min="0" value="0.00" />
+        </div>
+    </div>
+
+    <div class="mt-3" id="bloqueEfectivo" style="display:none;">
+        <label for="efectivoRecibido" class="form-label">Efectivo recibido (S/)</label>
+        <input type="number" name="efectivoRecibido" id="efectivoRecibido" class="form-control" step="0.01" min="0" value="0.00" />
+        <div class="form-text">Vuelto: <strong id="vuelto">S/ 0.00</strong></div>
+    </div>
+
+    <div class="mt-3">
+        <p class="mb-1">Total distribuido: <strong id="totalDistribuido">S/ 0.00</strong></p>
+        <p class="mb-1">Diferencia: <strong id="diferencia">S/ @Model.Total.ToString("0.00")</strong></p>
+        <div id="estadoPago" class="alert alert-warning py-2">Distribuye el importe entre los medios de pago.</div>
+    </div>
+
+    <button type="submit" id="btnPagar" class="btn btn-success" disabled>Confirmar y registrar pago</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Volver</a>
+</form></div>
+
+@section Scripts {
+<script>
+    const total = Number('@Model.Total.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)');
+    const efectivo = document.getElementById('efectivo');
+    const tarjeta = document.getElementById('tarjeta');
+    const yapePlin = document.getElementById('yapePlin');
+    const efectivoRecibido = document.getElementById('efectivoRecibido');
+    const btnPagar = document.getElementById('btnPagar');
+
+    function valor(input) { return Math.max(0, Number(input.value) || 0); }
+
+    function actualizarPago() {
+        const e = valor(efectivo);
+        const t = valor(tarjeta);
+        const y = valor(yapePlin);
+        const suma = Math.round((e + t + y) * 100) / 100;
+        const diferencia = Math.round((total - suma) * 100) / 100;
+        const recibido = valor(efectivoRecibido);
+
+        document.getElementById('totalDistribuido').textContent = 'S/ ' + suma.toFixed(2);
+        document.getElementById('diferencia').textContent = 'S/ ' + diferencia.toFixed(2);
+        document.getElementById('bloqueEfectivo').style.display = e > 0 ? 'block' : 'none';
+
+        if (e === 0) efectivoRecibido.value = '0.00';
+        else if (recibido < e) efectivoRecibido.value = e.toFixed(2);
+
+        const vuelto = e > 0 ? Math.max(0, valor(efectivoRecibido) - e) : 0;
+        document.getElementById('vuelto').textContent = 'S/ ' + vuelto.toFixed(2);
+
+        const correcto = Math.abs(diferencia) < 0.001 && (e === 0 || valor(efectivoRecibido) >= e);
+        const estado = document.getElementById('estadoPago');
+        if (correcto) {
+            estado.className = 'alert alert-success py-2';
+            estado.textContent = 'Los importes coinciden. Puedes registrar el pago.';
+        } else {
+            estado.className = 'alert alert-warning py-2';
+            estado.textContent = diferencia > 0 ? 'Falta distribuir S/ ' + diferencia.toFixed(2) :
+                diferencia < 0 ? 'Has distribuido S/ ' + Math.abs(diferencia).toFixed(2) + ' de más.' :
+                'Revisa el efectivo recibido.';
+        }
+        btnPagar.disabled = !correcto;
+    }
+
+    document.querySelectorAll('.importe').forEach(x => x.addEventListener('input', actualizarPago));
+    efectivoRecibido.addEventListener('input', actualizarPago);
+    document.getElementById('formPago').addEventListener('submit', function (ev) {
+        actualizarPago();
+        if (btnPagar.disabled) ev.preventDefault();
+    });
+    actualizarPago();
+</script>
+}

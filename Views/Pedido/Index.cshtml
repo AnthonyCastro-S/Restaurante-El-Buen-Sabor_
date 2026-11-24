@@ -1,0 +1,62 @@
+@model List<Pedido>
+
+<h2>Lista de Pedidos</h2>
+<a asp-action="Create">Registrar Nuevo Pedido</a>
+
+<form method="get">
+    <label>N.° pedido o mesa:</label> <input type="text" name="buscar" value="@ViewBag.Buscar" />
+    <label>Fecha:</label> <input type="date" name="fecha" />
+    <label>Estado:</label>
+    <select name="estado">
+        <option value="">-- Todos --</option>
+        @foreach (var e in new[] { "PENDIENTE", "EN_PREPARACION", "LISTO", "ENTREGADO", "PAGADO", "CANCELADO" })
+        {
+            <option value="@e" selected="@((string)ViewBag.Estado == e)">@e</option>
+        }
+    </select>
+    <button type="submit">Filtrar</button>
+</form>
+<br />
+<table border="1">
+    <tr>
+        <th>N.° Pedido</th>
+        <th>Fecha</th>
+        <th>Mesa</th>
+        <th>Mesero</th>
+        <th>Platos</th>
+        <th>Total</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>PED-@item.Id</td>
+            <td>@item.FechaCreacion.ToString("dd/MM/yyyy HH:mm")</td>
+            <td>@item.MesaNumero</td>
+            <td>@item.MeseroNombre</td>
+            <td>@item.CantidadPlatos</td>
+            <td>S/ @item.Total.ToString("0.00")</td>
+            <td>@item.Estado</td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Ver</a>
+                @if ((User.IsInRole("ADMIN") || User.IsInRole("MESERO")) && new[] { "PENDIENTE", "EN_PREPARACION", "LISTO", "ENTREGADO" }.Contains(item.Estado))
+                {
+                    <text> | </text><a asp-action="CambiarMesa" asp-route-id="@item.Id">Cambiar mesa</a>
+                }
+                @if ((User.IsInRole("ADMIN") || User.IsInRole("MESERO")) && item.Estado == "EN_PREPARACION")
+                {
+                    <text> | </text><a asp-action="AgregarPlatos" asp-route-id="@item.Id">Agregar platos</a>
+                }
+                @if (item.Estado == "LISTO")
+                {
+                    <text> | </text><a asp-action="Entregar" asp-route-id="@item.Id">Entregar</a>
+                }
+                @if (item.Estado == "PENDIENTE" || item.Estado == "EN_PREPARACION" || item.Estado == "LISTO")
+                {
+                    <text> | </text><a asp-action="Cancelar" asp-route-id="@item.Id">Cancelar</a>
+                }
+            </td>
+        </tr>
+    }
+</table>

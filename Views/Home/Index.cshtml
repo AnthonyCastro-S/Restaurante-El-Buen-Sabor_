@@ -1,0 +1,47 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+<div class="dashboard-heading">
+    <div><span class="section-kicker">VISTA GENERAL</span><h1>Panel de control</h1><p>Resumen de la actividad del restaurante durante el día.</p></div>
+    <span class="today-chip">@DateTime.Now.ToString("dddd, dd MMMM yyyy")</span>
+</div>
+<div class="stats-grid">
+    <div class="stat-card"><div class="stat-top"><span>Ventas de hoy</span><span class="stat-icon orange">S/</span></div><strong>S/ @(((decimal)ViewBag.VentasHoy).ToString("N2"))</strong><small>Pagos registrados hoy</small></div>
+    <div class="stat-card"><div class="stat-top"><span>Pedidos de hoy</span><span class="stat-icon blue">▤</span></div><strong>@ViewBag.PedidosHoy</strong><small>Pedidos registrados</small></div>
+    <div class="stat-card"><div class="stat-top"><span>Mesas ocupadas</span><span class="stat-icon green">▦</span></div><strong>@ViewBag.MesasOcupadas <em>/ @ViewBag.MesasTotal</em></strong><small>Ocupación actual</small></div>
+    <div class="stat-card"><div class="stat-top"><span>Pedidos en proceso</span><span class="stat-icon purple">◷</span></div><strong>@ViewBag.PedidosPendientes</strong><small>Por preparar o entregar</small></div>
+</div>
+<div class="dashboard-grid">
+    <section class="panel-card">
+        <div class="panel-title"><div><h3>Accesos rápidos</h3><p>Accede a las funciones principales</p></div></div>
+        <div class="quick-grid">
+            @if (User.IsInRole("ADMIN") || User.IsInRole("MESERO")) { <a asp-controller="Pedido" asp-action="Index" class="quick-item"><span>▤</span><b>Pedidos</b><small>Registrar y consultar</small></a><a asp-controller="Mesa" asp-action="Index" class="quick-item"><span>▦</span><b>Mesas</b><small>Estado del salón</small></a> }
+            @if (User.IsInRole("ADMIN") || User.IsInRole("COCINERO")) { <a asp-controller="Cocina" asp-action="Index" class="quick-item"><span>♨</span><b>Cocina</b><small>Comandas activas</small></a> }
+            @if (User.IsInRole("ADMIN") || User.IsInRole("CAJERO")) { <a asp-controller="Caja" asp-action="Index" class="quick-item"><span>S/</span><b>Caja</b><small>Cobros y movimientos</small></a><a asp-controller="Caja" asp-action="Historial" class="quick-item"><span>▣</span><b>Cierres de caja</b><small>Arqueos anteriores</small></a> }
+            @if (User.IsInRole("ADMIN")) { <a asp-controller="Inventario" asp-action="Index" class="quick-item"><span>▧</span><b>Inventario</b><small>Control de insumos</small></a><a asp-controller="Plato" asp-action="Index" class="quick-item"><span>♧</span><b>Menú</b><small>Platos y categorías</small></a> }
+        </div>
+    </section>
+    <section class="panel-card">
+        <div class="panel-title"><div><h3>Estado operativo</h3><p>Indicadores de atención</p></div></div>
+        <div class="operation-line"><span>Cuentas pendientes de cobro</span><strong>@ViewBag.CuentasPendientes</strong></div>
+        <div class="operation-line"><span>Pedidos activos</span><strong>@ViewBag.PedidosPendientes</strong></div>
+        <div class="operation-line"><span>Mesas disponibles</span><strong>@(ViewBag.MesasTotal - ViewBag.MesasOcupadas)</strong></div>
+        @if (User.IsInRole("ADMIN") || User.IsInRole("CAJERO")) { <a asp-controller="Caja" asp-action="Index" class="btn btn-primary w-100 mt-4">Ir a caja</a> }
+    </section>
+</div>
+@if (User.IsInRole("ADMIN") || User.IsInRole("CAJERO"))
+{
+<section class="panel-card mt-3">
+    <div class="panel-title"><div><h3>Últimos pagos registrados</h3><p>Movimientos recientes de caja</p></div><a asp-controller="Caja" asp-action="Index">Ver caja →</a></div>
+    @if (((IEnumerable<dynamic>)ViewBag.UltimosPagos).Any())
+    {
+        <div class="table-responsive"><table><thead><tr><th>Comprobante</th><th>Mesa</th><th>Fecha</th><th>Total</th></tr></thead><tbody>
+        @foreach (var pago in (IEnumerable<dynamic>)ViewBag.UltimosPagos)
+        {
+            <tr><td>#@Convert.ToInt64(pago.Id).ToString("D8")</td><td>Mesa @pago.Mesa</td><td>@Convert.ToDateTime(pago.Fecha).ToString("dd/MM/yyyy HH:mm")</td><td><strong>S/ @Convert.ToDecimal(pago.Total).ToString("N2")</strong></td></tr>
+        }
+        </tbody></table></div>
+    }
+    else { <div class="empty-state"><strong>Aún no hay pagos registrados hoy</strong></div> }
+</section>
+}

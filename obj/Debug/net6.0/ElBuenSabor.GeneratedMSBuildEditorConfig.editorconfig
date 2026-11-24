@@ -1,0 +1,148 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EntryPointFilePath = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = ElBuenSabor
+build_property.RootNamespace = ElBuenSabor
+build_property.ProjectDir = C:\Users\UPN\Documents\DISEÑO.ARQUITECTURA\ElBuenSabor_actualizado\ElBuenSabor\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\UPN\Documents\DISEÑO.ARQUITECTURA\ElBuenSabor_actualizado\ElBuenSabor
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 6.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Account/AccesoDenegado.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxBY2Nlc29EZW5lZ2Fkby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Caja/Apertura.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FqYVxBcGVydHVyYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Caja/Cierre.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FqYVxDaWVycmUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Caja/Comprobante.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FqYVxDb21wcm9iYW50ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Caja/GenerarCuenta.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FqYVxHZW5lcmFyQ3VlbnRhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Caja/Historial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FqYVxIaXN0b3JpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Caja/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FqYVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Categoria/Form.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmlhXEZvcm0uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Categoria/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmlhXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Cocina/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29jaW5hXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Inventario/Form.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50YXJpb1xGb3JtLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Inventario/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50YXJpb1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Inventario/Movimiento.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50YXJpb1xNb3ZpbWllbnRvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Mesa/Form.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVzYVxGb3JtLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Mesa/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVzYVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Pedido/AgregarPlatos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVkaWRvXEFncmVnYXJQbGF0b3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Pedido/CambiarMesa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVkaWRvXENhbWJpYXJNZXNhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Pedido/Cancelar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVkaWRvXENhbmNlbGFyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Pedido/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVkaWRvXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Pedido/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVkaWRvXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Pedido/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVkaWRvXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Plato/Form.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhdG9cRm9ybS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Plato/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGxhdG9cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Usuario/Form.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xGb3JtLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/Usuario/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/UPN/Documents/DISEÑO.ARQUITECTURA/ElBuenSabor_actualizado/ElBuenSabor/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 

@@ -1,0 +1,21 @@
+@model List<ElBuenSabor.Models.Insumo>
+@{ ViewData["Title"] = "Inventario"; }
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div><h2 class="mb-1">Control de inventario</h2><p class="text-muted mb-0">Administra los insumos y revisa sus niveles de stock.</p></div>
+    <a asp-action="Create" class="btn btn-primary">+ Nuevo insumo</a>
+</div>
+<div class="row g-3 mb-4">
+    <div class="col-md-4"><div class="card"><div class="card-body"><div class="text-muted small">Insumos activos</div><div class="fs-3 fw-bold">@Model.Count</div></div></div></div>
+    <div class="col-md-4"><div class="card"><div class="card-body"><div class="text-muted small">Stock bajo</div><div class="fs-3 fw-bold text-danger">@Model.Count(x => x.StockActual <= x.StockMinimo)</div></div></div></div>
+    <div class="col-md-4"><div class="card"><div class="card-body"><div class="text-muted small">Valor referencial del stock</div><div class="fs-3 fw-bold">S/ @Model.Sum(x => x.StockActual * x.CostoUnitario).ToString("N2")</div></div></div></div>
+</div>
+<form method="get" class="d-flex gap-2 mb-3"><input name="buscar" value="@ViewBag.Buscar" class="form-control" placeholder="Buscar insumo..." /><button class="btn btn-outline-primary">Buscar</button><a asp-action="Index" class="btn btn-light">Limpiar</a></form>
+<div class="card mb-4"><div class="card-header">Insumos registrados</div><div class="table-responsive"><table class="table mb-0"><thead><tr><th>Insumo</th><th>Stock actual</th><th>Stock mínimo</th><th>Costo unitario</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>
+@if (!Model.Any()) { <tr><td colspan="6" class="text-center text-muted py-4">No hay insumos registrados.</td></tr> }
+@foreach (var item in Model) { <tr><td><strong>@item.Nombre</strong><div class="text-muted small">Unidad: @item.Unidad</div></td><td>@item.StockActual.ToString("N2") @item.Unidad</td><td>@item.StockMinimo.ToString("N2") @item.Unidad</td><td>S/ @item.CostoUnitario.ToString("N2")</td><td>@if(item.StockActual <= item.StockMinimo){<span class="badge bg-danger">Stock bajo</span>}else{<span class="badge bg-success">Normal</span>}</td><td class="text-nowrap"><a asp-action="Movimiento" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Movimiento</a> <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Editar</a></td></tr> }
+</tbody></table></div></div>
+<div class="card"><div class="card-header">Movimientos recientes</div><div class="table-responsive"><table class="table mb-0"><thead><tr><th>Fecha</th><th>Insumo</th><th>Tipo</th><th>Cantidad</th><th>Stock final</th><th>Responsable</th><th>Motivo</th></tr></thead><tbody>
+@{ var movimientos = ViewBag.Movimientos as List<ElBuenSabor.Models.MovimientoInsumo>; }
+@if (movimientos == null || !movimientos.Any()) { <tr><td colspan="7" class="text-center text-muted py-3">Aún no hay movimientos.</td></tr> }
+@foreach (var mov in movimientos ?? new List<ElBuenSabor.Models.MovimientoInsumo>()) { <tr><td>@mov.Fecha.ToString("dd/MM/yyyy HH:mm")</td><td>@mov.Insumo</td><td>@mov.Tipo</td><td>@mov.Cantidad.ToString("N2")</td><td>@mov.StockNuevo.ToString("N2")</td><td>@mov.Usuario</td><td>@mov.Motivo</td></tr> }
+</tbody></table></div></div>

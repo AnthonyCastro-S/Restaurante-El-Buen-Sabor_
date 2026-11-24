@@ -1,0 +1,18 @@
+@model Categoria
+@{ bool nuevo = Model.Id == 0; }
+
+<h2>@(nuevo ? "Crear Categoría" : "Editar Categoría")</h2>
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+<form asp-action="@(nuevo ? "Create" : "Edit")" method="post">
+    <input type="hidden" asp-for="Id" />
+    <label>Nombre:</label>
+    <input asp-for="Nombre" /><br />
+    <label>Descripción:</label>
+    <input asp-for="Descripcion" /><br />
+    <label>Activa:</label>
+    <input asp-for="Activa" /><br />
+    <button type="submit">Guardar</button>
+    <a asp-action="Index">Volver</a>
+</form>

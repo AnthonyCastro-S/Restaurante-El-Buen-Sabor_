@@ -1,0 +1,18 @@
+@model Mesa
+@{ bool nuevo = Model.Id == 0; }
+
+<h2>@(nuevo ? "Crear Mesa" : "Editar Mesa")</h2>
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+<form asp-action="@(nuevo ? "Create" : "Edit")" method="post">
+    <input type="hidden" asp-for="Id" />
+    <label>Número:</label>
+    <input asp-for="Numero" /><br />
+    <label>Capacidad:</label>
+    <input asp-for="Capacidad" /><br />
+    <label>Ubicación:</label>
+    <input asp-for="Ubicacion" /><br />
+    <button type="submit">Guardar</button>
+    <a asp-action="Index">Volver</a>
+</form>

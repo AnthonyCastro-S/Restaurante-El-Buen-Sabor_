@@ -1,0 +1,43 @@
+@model List<Mesa>
+
+<h2>Lista de Mesas</h2>
+<a asp-action="Create">Crear Nueva Mesa</a> |
+<a asp-action="Index">Todas</a> |
+<a asp-action="Index" asp-route-estado="DISPONIBLE">Disponibles</a> |
+<a asp-action="Index" asp-route-estado="OCUPADA">Ocupadas</a> |
+<a asp-action="Index" asp-route-estado="RESERVADA">Reservadas</a>
+<table border="1">
+    <tr>
+        <th>Número</th>
+        <th>Capacidad</th>
+        <th>Ubicación</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Numero</td>
+            <td>@item.Capacidad</td>
+            <td>@item.Ubicacion</td>
+            <td>
+                @if (item.Estado == "DISPONIBLE") { <span class="badge bg-success">Disponible</span> }
+                else if (item.Estado == "OCUPADA") { <span class="badge bg-danger">Ocupada</span> }
+                else { <span class="badge bg-warning text-dark">Reservada</span> }
+            </td>
+            <td>
+                @if (item.Estado == "DISPONIBLE")
+                {
+                    <a asp-action="CambiarEstado" asp-route-id="@item.Id" asp-route-estado="OCUPADA">Ocupar mesa</a><text> | </text>
+                    <a asp-action="CambiarEstado" asp-route-id="@item.Id" asp-route-estado="RESERVADA">Reservar</a>
+                }
+                else
+                {
+                    <a asp-action="CambiarEstado" asp-route-id="@item.Id" asp-route-estado="DISPONIBLE">Liberar</a>
+                }
+                | <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                | <form asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline" onsubmit="return confirm('¿Eliminar la mesa?');"><button type="submit">Eliminar</button></form>
+            </td>
+        </tr>
+    }
+</table>
